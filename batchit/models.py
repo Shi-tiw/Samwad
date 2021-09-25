@@ -25,20 +25,10 @@ class Question(models.Model):
         return reverse('home')
 
 
-class ComForQues(models.Model):
-    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name='comforques_ath')
-    question = models.ForeignKey(Question,related_name="comforques", on_delete=models.CASCADE)
-    com_desc = RichTextField(blank=True, null= True)
-    date_added = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return '%s - %s' % (self.question.ques, self.user)
-
-
 class Answer(models.Model):
-    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name='answer')
+    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name='ans_auth')
     answer = models.ForeignKey(Question,related_name="answers", on_delete=models.CASCADE)
-    com_desc = RichTextField(blank=True, null= True)
+    ans_desc = RichTextField(blank=True, null= True)
     date_uploaded = models.DateField(auto_now_add=True)
     upvotes_ans = models.ManyToManyField(User, related_name='upvote_ans')
 
@@ -49,11 +39,12 @@ class Answer(models.Model):
         return '%s - %s' % (self.answer.ques, self.user)
 
 
-class ComForAns(models.Model):
-    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name='comforans_ath')
-    answer = models.ForeignKey(Answer,related_name="comforans", on_delete=models.CASCADE)
-    com_desc_ans = RichTextField(blank=True, null= True)
+class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name='com_ath')
+    answer = models.ForeignKey(Answer,related_name="comforans", on_delete=models.CASCADE,blank=True, null= True)
+    question = models.ForeignKey(Question,related_name="comforques", on_delete=models.CASCADE, blank=True, null= True)
+    com_desc = RichTextField(blank=True, null= True)
     date_updated = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return '%s - %s' % (self.answer.com_desc, self.user)
+        return '%s - %s' % (self.com_desc, self.user)
