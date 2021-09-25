@@ -11,8 +11,8 @@ class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     ques_desc = RichTextField(blank=True, null= True)
     datetime = models.DateField(auto_now_add=True)
-    upvotes = models.ManyToManyField(User, related_name='upvote')
-    views = models.ManyToManyField(User, related_name='view')
+    upvotes = models.ManyToManyField(User, related_name='upvote', blank=True, null= True )
+    views = models.ManyToManyField(User, related_name='view', blank=True, null= True)
 
 
     def total_upvotes(self):
@@ -30,7 +30,7 @@ class Answer(models.Model):
     answer = models.ForeignKey(Question,related_name="answers", on_delete=models.CASCADE)
     ans_desc = RichTextField(blank=True, null= True)
     date_uploaded = models.DateField(auto_now_add=True)
-    upvotes_ans = models.ManyToManyField(User, related_name='upvote_ans')
+    upvotes_ans = models.ManyToManyField(User, related_name='upvote_ans',blank=True, null= True )
 
     def total_upvotes_ans(self):
         return self.upvotes_ans.count()
